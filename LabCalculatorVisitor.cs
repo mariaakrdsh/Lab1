@@ -54,6 +54,10 @@ namespace LabCalculator
             var left = WalkLeft(context);
             var right = WalkRight(context);
 
+            if (right == double.PositiveInfinity)
+            {
+                return double.PositiveInfinity;
+            }
             Debug.WriteLine("{0} ^ {1}", left, right);
             return System.Math.Pow(left, right);
         }
@@ -91,7 +95,7 @@ namespace LabCalculator
                 if(right == 0)
                 {
                     MessageBox.Show("ПОМИЛКА, ДІЛЕННЯ НА НУЛЬ");
-                        return 0;
+/*                        return 0;*/
                 }
                 Debug.WriteLine("{0} / {1}", left, right);
                 return left / right;
@@ -102,10 +106,10 @@ namespace LabCalculator
         {
             int left = Convert.ToInt32(WalkLeft(context));
             int right = Convert.ToInt32(WalkRight(context));
-            if (right == 0)
+            if (right == 0 || right == double.PositiveInfinity)
             {
                 MessageBox.Show("ПОМИЛКА, ДІЛЕННЯ НА НУЛЬ!");
-                return 0;
+                return double.PositiveInfinity;
             }
             if (context.operatorToken.Type == LabCalculatorLexer.MOD)
             {

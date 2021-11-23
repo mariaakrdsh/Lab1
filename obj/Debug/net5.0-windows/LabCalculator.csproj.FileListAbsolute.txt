@@ -24,3 +24,4 @@ C:\OOP\LabCalculator\obj\Debug\net5.0-windows\ref\LabCalculator.dll
 C:\OOP\LabCalculator\obj\Debug\net5.0-windows\LabCalculator.pdb
 C:\OOP\LabCalculator\obj\Debug\net5.0-windows\LabCalculator.genruntimeconfig.cache
 C:\OOP\LabCalculator\obj\Debug\net5.0-windows\LabCalculator.csproj.AssemblyReference.cache
+C:\OOP\LabCalculator\obj\Debug\net5.0-windows\LabCalculator.Properties.Resources.resources

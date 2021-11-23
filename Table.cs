@@ -67,7 +67,7 @@ namespace LabCalculator
         public void ChangeCellsAndPointers(DataGridView dataGridView1, string cellName, string expression)
         {
             cellList[cellName].DeletePointers();
-            cellList[cellName].Exp = expression;
+/*            cellList[cellName].Exp = expression;*/
             cellList[cellName].new_referencesFromThis.Clear();
 
             if (expression != "")
@@ -76,11 +76,12 @@ namespace LabCalculator
                 {
                     cellList[cellName].Value = expression;
                     dictionary[cellName] = expression;
+                    cellList[cellName].Exp = expression;
                     foreach (MyCell cell in cellList[cellName].pointersToThis)
                     {
                         RefreshCellAndPointers(cell, dataGridView1);
                     }
-                    return;
+                    return ;
                 }
             }
 
@@ -92,13 +93,9 @@ namespace LabCalculator
 
             if (!cellList[cellName].CheckLoop(cellList[cellName].new_referencesFromThis))
             {
-                MessageBox.Show("Помилка, змініть значення.");
-                cellList[cellName].Exp = "";
-                cellList[cellName].Value = "0";
-                dataGridView1.CurrentCell.Value = "0";
+                MessageBox.Show("Помилка, цикл.");
                 return;
             }
-
             cellList[cellName].AddPointers();
             string Value = Calculate(new_expression);
             if (Value == "Error")
@@ -106,14 +103,17 @@ namespace LabCalculator
                 MessageBox.Show("Помилка в клітинці " + cellName);
                 cellList[cellName].Exp = "";
                 cellList[cellName].Value = "0";
+                dictionary[cellName] = "";
                 dataGridView1.CurrentCell.Value = "0";
                 return;
             }
 
             cellList[cellName].Value = Value;
             dictionary[cellName] = Value;
+            cellList[cellName].Exp = expression;
             foreach (MyCell cell in cellList[cellName].pointersToThis)
                 RefreshCellAndPointers(cell, dataGridView1);
+            return;
         }
 
         public bool RefreshCellAndPointers(MyCell cell, DataGridView dataGridView1)
@@ -158,6 +158,10 @@ namespace LabCalculator
                 {
                     cellList[cellName].new_referencesFromThis.Add(cellList[match.Value]);
                 }
+                else
+                {
+                    MessageBox.Show("Помилка в клітинці " + match.Value + ". Клітинка не існує");
+                }
             }
             MatchEvaluator evaluator = new MatchEvaluator(referenceToValue);
             string new_expression = regex.Replace(expression, evaluator);
@@ -180,7 +184,7 @@ namespace LabCalculator
             try
             {
                 res = Convert.ToString(LabCalculator.Calculator.Evaluate(expression));
-                if (res == "∞")
+                if (res == "бесконечность")
                 {
                     res = "Помилка";
                 }
@@ -217,7 +221,7 @@ namespace LabCalculator
                 }
                 if (lastCol.Count != 0)
                 {
-                    errorMessage += "\nЄ клітинки, які мають посилання на клітинку, яка може бути видалена: ";
+                    errorMessage += "\nВи хочете видалити клітинку, на яку мають посилання інші клітинки: ";
                     foreach (MyCell cell in lastCol)
                         errorMessage += string.Join("; ", cell.Name);
                 }
@@ -269,7 +273,7 @@ namespace LabCalculator
                 }
                 if (lastRow.Count != 0)
                 {
-                    errorMessage += "\nЄ клітинки, які мають посилання на клітинку, яка може бути видалена: ";
+                    errorMessage += "\nВи хочете видалити клітинку, на яку мають посилання інші клітинки: ";
                     foreach (MyCell cell in lastRow)
                     {
                         errorMessage += string.Join("; ", cell.Name);
@@ -340,6 +344,8 @@ namespace LabCalculator
         }
         public void Open(int row, int col, StreamReader sr, DataGridView dataGridView)
         {
+            _columnNumber = col;
+            _rowNumber = row;
             int cellCount = row * col;
             for (int i = 0; i < col * row; ++i)
             {

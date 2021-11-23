@@ -85,7 +85,7 @@ namespace LabCalculator
         dataGridView1.Columns.Add(excelColumn);
             _table.SetCellsInColumn(dataGridView1.ColumnCount-1, dataGridView1);
             _table.ColCount++;
-    }
+        }
 
         private void DeleteColumn_Click(object sender, EventArgs e)
         {
@@ -136,25 +136,21 @@ namespace LabCalculator
             int currRow = dataGridView1.CurrentCell.RowIndex;
             int currCol = dataGridView1.CurrentCell.ColumnIndex;
             string cellName = BasedSystem26.To26System(currCol) + (currRow + 1).ToString();
+            string expression;
             if (dataGridView1.CurrentCell.Value == null)
             {
                 _table.cellList[cellName].Clear();
+                expression = "0";
                 MessageBox.Show("Увага, клітинка порожня");
-                return;
-            }
-            string expression;
-            if (_table.cellList[cellName].Exp == "" || dataGridView1.CurrentCell.Value.ToString() != _table.cellList[cellName].Exp)
-            {
-                expression = (dataGridView1.CurrentCell.Value).ToString();
             }
             else
             {
-                expression = _table.cellList[cellName].Exp;
+                expression = (dataGridView1.CurrentCell.Value).ToString();
             }
+
             _table.ChangeCellsAndPointers(dataGridView1, cellName, expression);
             dataGridView1.CurrentCell.Value = _table.cellList[cellName].Value;
-            textBox1.Text = _table.cellList[cellName].Exp;
-        }
+            textBox1.Text = _table.cellList[cellName].Exp;        }
         private void Calculate_Click(object sender, EventArgs e)
         {
             CalculateExcel();
@@ -162,10 +158,13 @@ namespace LabCalculator
 
         private void helpToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("Наша програма має наступні операції:\n\t" +
+            MessageBox.Show("Вітаємо у додатку Table Editor!\n" +
+                "Програма допомагає виконувати обрахунки, зокрема з використанням операцій:\n\t" +
                 "1.'+, -, *,/'\n\t" +
                 "2. '^'\n\t " +
-                "3. 'mod, div'",
+                "3. 'mod, div'"+
+                "\nВи маєте змогу додавати та видаляти колонки та рядки в кінці таблиці," +
+                "а також зберігати та читати Вашу таблицю.",
                 "Допоміжне меню");
         }
 
@@ -198,6 +197,11 @@ namespace LabCalculator
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             CalculateExcel();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

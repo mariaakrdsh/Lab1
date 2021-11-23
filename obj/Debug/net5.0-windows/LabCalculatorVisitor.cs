@@ -57,12 +57,28 @@ public interface ILabCalculatorVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitBigExpr([NotNull] LabCalculatorParser.BigExprContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>DecExpr</c>
+	/// labeled alternative in <see cref="LabCalculatorParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDecExpr([NotNull] LabCalculatorParser.DecExprContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>ExponentialExpr</c>
 	/// labeled alternative in <see cref="LabCalculatorParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitExponentialExpr([NotNull] LabCalculatorParser.ExponentialExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IncExpr</c>
+	/// labeled alternative in <see cref="LabCalculatorParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIncExpr([NotNull] LabCalculatorParser.IncExprContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>AdditiveExpr</c>
@@ -103,6 +119,14 @@ public interface ILabCalculatorVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitParenthesizedExpr([NotNull] LabCalculatorParser.ParenthesizedExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>MaxMinExpr</c>
+	/// labeled alternative in <see cref="LabCalculatorParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMaxMinExpr([NotNull] LabCalculatorParser.MaxMinExprContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="LabCalculatorParser.compileUnit"/>.
